@@ -14,8 +14,7 @@
         </p>
 
         <p style="font-size: large">We deliver across the world!</p>
-        <form
-          action="#"
+        <div
           class="mb-3 form-search d-flex align-items-stretch"
           data-aos="fade-up"
           data-aos-delay="200"
@@ -24,9 +23,16 @@
             type="text"
             class="form-control"
             placeholder="Enter Tracking Code..."
+            [formControl]="trackingId"
           />
-          <button type="submit" class="btn btn-primary">Track</button>
-        </form>
+          <button
+            type="button"
+            (click)="trackProduct()"
+            class="btn btn-primary"
+          >
+            Track
+          </button>
+        </div>
 
         <div class="row gy-4" data-aos="fade-up" data-aos-delay="400">
           <div class="col-lg-3 col-6">
@@ -114,7 +120,7 @@
               We ensure your packages are delivered quickly and securely, with
               real-time tracking and guaranteed safety.
             </p>
-            <a href="service-details.html" class="readmore stretched-link"
+            <a class="readmore stretched-link"
               ><span>Learn More</span><i class="bi bi-arrow-right"></i
             ></a>
           </div>
@@ -135,7 +141,7 @@
               Our expert team ensures smooth transportation, handling, and
               delivery of your items with efficiency and care
             </p>
-            <a href="service-details.html" class="readmore stretched-link"
+            <a class="readmore stretched-link"
               ><span>Learn More</span><i class="bi bi-arrow-right"></i
             ></a>
           </div>
@@ -156,7 +162,7 @@
               We prioritize customer experience, offering hassle-free shipping ,
               easy tracking, and dedicated support.
             </p>
-            <a href="service-details.html" class="readmore stretched-link"
+            <a class="readmore stretched-link"
               ><span>Learn More</span><i class="bi bi-arrow-right"></i
             ></a>
           </div>
@@ -176,8 +182,9 @@
         >
           <img src="assets/img/about.jpg" class="img-fluid" alt="" />
           <a
-            href="https://www.youtube.com/watch?v=LXb3EKWsInQ"
-            class="glightbox play-btn"
+            href="https://youtube.com/shorts/CV-4Ka28p-E?si=LDOsn9RbgJHjYpmE"
+            target="_blank"
+            class="play-btn"
           ></a>
         </div>
         <div class="order-last col-lg-6 content order-lg-first">
@@ -251,7 +258,7 @@
               />
             </div>
             <h3>
-              <a href="service-details.html" class="stretched-link">Storage</a>
+              <a class="stretched-link">Storage</a>
             </h3>
             <p>
               Secure and well-organized storage solutions to keep your goods
@@ -272,9 +279,7 @@
               />
             </div>
             <h3>
-              <a href="service-details.html" class="stretched-link"
-                >Logistics</a
-              >
+              <a class="stretched-link">Logistics</a>
             </h3>
             <p>
               Seamless logistics solutions that ensure smooth transportation and
@@ -295,7 +300,7 @@
               />
             </div>
             <h3>
-              <a href="service-details.html" class="stretched-link">Cargo</a>
+              <a class="stretched-link">Cargo</a>
             </h3>
             <p>
               Reliable cargo handling and shipping services for businesses and
@@ -316,7 +321,7 @@
               />
             </div>
             <h3>
-              <a href="service-details.html" class="stretched-link">Trucking</a>
+              <a class="stretched-link">Trucking</a>
             </h3>
             <p>
               Fast and dependable trucking services for transporting goods
@@ -337,9 +342,7 @@
               />
             </div>
             <h3>
-              <a href="service-details.html" class="stretched-link"
-                >Packaging</a
-              >
+              <a class="stretched-link">Packaging</a>
             </h3>
             <p>
               Professional packaging solutions to ensure the safety and security
@@ -360,9 +363,7 @@
               />
             </div>
             <h3>
-              <a href="service-details.html" class="stretched-link"
-                >Warehousing</a
-              >
+              <a class="stretched-link">Warehousing</a>
             </h3>
             <p>
               Spacious and well-managed warehousing services to store your
@@ -389,7 +390,7 @@
             globe, we've got you covered. Get real-time tracking, secure
             handling, and fast delivery – all at competitive rates.
           </p>
-          <a class="cta-btn" href="#">Start Shipping Now</a>
+          <a class="cta-btn" href="https://wa.me/{{whatsappNumber()}}">Start Shipping Now</a>
         </div>
       </div>
     </div>

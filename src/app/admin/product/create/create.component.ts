@@ -51,7 +51,6 @@ export class CreateProductComponent {
     this.errorMessage.set('');
 
     const newProduct: ProductDto = {
-      id: '', // Will be assigned by the server
       ...this.productForm.value,
     };
 

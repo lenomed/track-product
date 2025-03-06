@@ -1,9 +1,12 @@
 import { NgIf } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CreateProductComponent } from './product/create/create.component';
 import { UpdateProductComponent } from './product/update/update.component';
 import { ProductTableComponent } from './products/products.component';
 import { TrackProductComponent } from './product/track/track.component';
+import { Router } from '@angular/router';
+import { LocalStorageService } from '../services/storage/local-storage/local-storage.service';
+import { ContactListComponent } from './contacts/contacts.component';
 
 @Component({
   selector: 'app-admin',
@@ -15,11 +18,15 @@ import { TrackProductComponent } from './product/track/track.component';
     UpdateProductComponent,
     ProductTableComponent,
     TrackProductComponent,
+    ContactListComponent,
   ],
 })
 export class AdminDashboardComponent {
   activeTab = signal<string>('products');
   selectedProductId = signal<string | null>(null);
+
+  router = inject(Router);
+  localStorage = inject(LocalStorageService);
 
   setActiveTab(tab: string): void {
     this.activeTab.set(tab);
@@ -39,5 +46,10 @@ export class AdminDashboardComponent {
 
   handleProductUpdated(): void {
     this.setActiveTab('products');
+  }
+
+  logout(): void {
+    this.localStorage.removeItem('token');
+    this.router.navigate(['/']);
   }
 }

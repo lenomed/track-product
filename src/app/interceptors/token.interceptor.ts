@@ -5,7 +5,7 @@ import { LocalStorageService } from '../services/storage/local-storage/local-sto
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const localStorage = inject(LocalStorageService);
   const token = localStorage.getItem<string>('token');
-  if (token) {
+  if (token && req.url.includes('admin')) {
     req = req.clone({
       setHeaders: {
         Authorization: token,

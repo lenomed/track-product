@@ -1,0 +1,66 @@
+<div class="contact-list-container">
+  <div class="table-header">
+    <h2>Contact List</h2>
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="Search contacts..."
+        [(ngModel)]="searchTerm"
+        (input)="search()"
+      />
+    </div>
+  </div>
+
+  @if(isLoading()){
+  <div class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Searching for product...</p>
+  </div>
+  }@else{
+  <div class="table-responsive">
+    <table class="contact-table">
+      <thead>
+        <tr>
+          <th (click)="sort('name')">
+            Name <span class="sort-icon">{{ getSortIcon("name") }}</span>
+          </th>
+          <th (click)="sort('email')">
+            Email <span class="sort-icon">{{ getSortIcon("email") }}</span>
+          </th>
+          <th (click)="sort('subject')">
+            Subject <span class="sort-icon">{{ getSortIcon("subject") }}</span>
+          </th>
+          <th>Message</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (contact of filteredContacts(); track $index) {
+        <tr>
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.subject }}</td>
+          <td>
+            {{ contact.message | slice : 0 : 50
+            }}{{ contact.message.length > 50 ? "..." : "" }}
+          </td>
+          <td>
+            <button
+              class="action-btn delete"
+              (click)="deleteContact(contact.id)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+        }@empty {
+
+        <tr>
+          <td colspan="5" class="no-data">No contacts found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+</div>

@@ -18,6 +18,7 @@ import {
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { urlInterceptor } from './interceptors/url.interceptor';
+import { tokenInterceptor } from './interceptors/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,7 +32,10 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withInterceptors([urlInterceptor]), withFetch()),
+    provideHttpClient(
+      withInterceptors([urlInterceptor, tokenInterceptor]),
+      withFetch()
+    ),
     provideAnimationsAsync(),
     provideToastr({
       preventDuplicates: true,

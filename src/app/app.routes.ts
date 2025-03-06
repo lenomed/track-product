@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './user/layout/layout';
+import { authGuard } from './guard/auth.guard';
 
 export const routes: Routes = [
   {
@@ -31,6 +32,14 @@ export const routes: Routes = [
             (m) => m.ServicesComponent
           ),
       },
+
+      {
+        path: 'services/detail',
+        loadComponent: () =>
+          import('./user/services/detail/detail.component').then(
+            (m) => m.DetailComponent
+          ),
+      },
       {
         path: 'pricing',
         loadComponent: () =>
@@ -45,30 +54,33 @@ export const routes: Routes = [
             (m) => m.ContactComponent
           ),
       },
+
+      {
+        path: 'tracking/:id',
+        loadComponent: () =>
+          import('./user/product/tracking-result.component').then(
+            (m) => m.ProductTrackingResultComponent
+          ),
+      },
+
+      {
+        path: 'admin',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./admin/admin.component').then(
+            (m) => m.AdminDashboardComponent
+          ),
+      },
+
+      {
+        path: 'admin/login',
+        loadComponent: () =>
+          import('./admin/login/login.component').then(
+            (m) => m.AdminLoginComponent
+          ),
+      },
     ],
   },
 
-  {
-    path: 'tracking/:id',
-    loadComponent: () =>
-      import('./user/product/tracking-result.component').then(
-        (m) => m.ProductTrackingResultComponent
-      ),
-  },
-
-  {
-    path: 'admin',
-    loadComponent: () =>
-      import('./admin/admin.component').then((m) => m.AdminDashboardComponent),
-  },
-
-  {
-    path: 'admin/login',
-    loadComponent: () =>
-      import('./admin/login/login.component').then(
-        (m) => m.AdminLoginComponent
-      ),
-  },
-
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

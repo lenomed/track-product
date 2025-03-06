@@ -1,6 +1,8 @@
 <div class="admin-container">
   <header class="admin-header">
     <h1>Product Tracking Admin</h1>
+
+    <button class="login-btn" (click)="logout()">Logout</button>
   </header>
 
   <nav class="admin-tabs">
@@ -23,6 +25,12 @@
       Track Product
     </button>
     <button
+      [class.active]="activeTab() === 'contacts'"
+      (click)="setActiveTab('contacts')"
+    >
+      Contacts
+    </button>
+    <button
       [class.active]="activeTab() === 'update'"
       [disabled]="!selectedProductId() && activeTab() !== 'update'"
     >
@@ -34,22 +42,21 @@
     <app-products
       *ngIf="activeTab() === 'products'"
       (productSelected)="handleProductSelect($event)"
-    >
-    </app-products>
+    />
 
     <app-create-product
       *ngIf="activeTab() === 'create'"
       (productCreated)="handleProductCreated()"
-    >
-    </app-create-product>
+    />
 
-    <app-track-product *ngIf="activeTab() === 'track'"> </app-track-product>
+    <app-track-product *ngIf="activeTab() === 'track'" />
+
+    <app-contacts *ngIf="activeTab() === 'contacts'" />
 
     <app-update-product
       *ngIf="activeTab() === 'update' && selectedProductId()"
       [productId]="selectedProductId()"
       (productUpdated)="handleProductUpdated()"
-    >
-    </app-update-product>
+    />
   </main>
 </div>

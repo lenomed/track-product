@@ -16,7 +16,7 @@
   <nav>
     <div class="container">
       <ol>
-        <li><a href="index.html">Home</a></li>
+        <li><a routerLink="/">Home</a></li>
         <li>Track Item</li>
       </ol>
     </div>
@@ -28,52 +28,129 @@
 <section id="track_Item" class="track_Item">
   <div class="container" data-aos="fade-up">
     <div class="row g-0">
-      <div
-        class="col-lg-5 quote-bg"
-        style="background-image: url(assets/img/quote-bg.jpg)"
-      ></div>
-
-      <div class="col-lg-7">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="php-email-form">
-          <h3>Tracker Dashboard</h3>
-          <p style="color: cadetblue">
-            Kindly Type/paste your Tracking Code here...
+      <div class="track-container">
+        <div class="track-header">
+          <h2>Track Product</h2>
+          <p class="track-subtitle">
+            Enter a tracking code to view product details
           </p>
+        </div>
 
-          <div
-            class="mb-3 form-search d-flex align-items-stretch"
-            data-aos="fade-up"
-            data-aos-delay="200"
+        <form
+          [formGroup]="form"
+          (ngSubmit)="searchProduct()"
+          class="search-box"
+        >
+          <input
+            type="text"
+            formControlName="trackingId"
+            placeholder="Enter tracking code (e.g., TRK12345)"
+            [disabled]="isSearching()"
+            (keyup.enter)="searchProduct()"
+          />
+          <button
+            class="search-button"
+            (click)="searchProduct()"
+            [disabled]="isSearching()"
+            type="submit"
           >
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter Tracking Code..."
-              formControlName="trackingId"
-            />
-
-            <button type="submit" class="btn btn-primary">
-              @if(isLoading()){ Tracking... }@else{ Track }
-            </button>
-          </div>
-          @if(form.controls['trackingId'].errors &&
-          form.controls['trackingId'].dirty){
-          <p class="text-error">
-            @if(form.controls['trackingId'].errors['required']){ Tracking code
-            is required }
-          </p>
-          }
+            {{ isSearching() ? "Searching..." : "Track" }}
+          </button>
         </form>
+
+        <div class="error-message" *ngIf="errorMessage()">
+          {{ errorMessage() }}
+        </div>
+
+        <div class="loading-container" *ngIf="isSearching()">
+          <div class="loading-spinner"></div>
+          <p>Searching for product...</p>
+        </div>
+        <div #trackSection>
+          <div class="product-details" *ngIf="product()">
+            <div class="product-header">
+              <h3>{{ product()?.name }}</h3>
+              <span
+                class="status-badge"
+                [ngClass]="getStatusClass(product()?.status!)"
+              >
+                {{ product()?.status }}
+              </span>
+            </div>
+
+            <div class="product-info">
+              <div class="info-section">
+                <h4>Tracking Information</h4>
+                <div class="info-grid">
+                  <div class="info-item">
+                    <span class="info-label">Tracking ID:</span>
+                    <span class="info-value">{{ product()?.trackingId }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value">{{ product()?.status }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Departure Date:</span>
+                    <span class="info-value">{{
+                      product()?.departureDate
+                    }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Arrival Date:</span>
+                    <span class="info-value">{{ product()?.arrivalDate }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-section">
+                <h4>Product Details</h4>
+                <div class="info-grid">
+                  <div class="info-item">
+                    <span class="info-label">Product ID:</span>
+                    <span class="info-value">{{ product()?.id }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Description:</span>
+                    <span class="info-value">{{ product()?.description }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-section">
+                <h4>Shipping Information</h4>
+                <div class="info-grid">
+                  <div class="info-item">
+                    <span class="info-label">Sender:</span>
+                    <span class="info-value">{{ product()?.senderName }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Receiver:</span>
+                    <span class="info-value">{{
+                      product()?.receiverName
+                    }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Origin:</span>
+                    <span class="info-value">{{ product()?.origin }}</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Destination:</span>
+                    <span class="info-value">{{ product()?.destination }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn-secondary" (click)="clearSearch()">
+                Search Another
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- End Quote Form -->
     </div>
-    @if(product()){
-    <!-- <app-result [trackingCode]="trackingCode()" /> -->
-    <app-product-tracking-result
-      [trackingNumber]="trackingCode()"
-      [product]="this.product()!"
-    />
-    }
   </div>
 </section>
 <!-- End Get a Quote Section -->

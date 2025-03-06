@@ -1,8 +1,17 @@
-import { Component, type OnInit, output, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  type OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import type { ProductDto } from '../../models/product.model';
 import { ProductService } from '../../services/product/product.service';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-products',
@@ -13,7 +22,11 @@ import { FormsModule } from '@angular/forms';
 export class ProductTableComponent implements OnInit {
   productSelected = output<string>();
 
+  destroyRef = inject(DestroyRef);
+  toast = inject(ToastrService);
+
   products = signal<ProductDto[]>([]);
+  isLoading = signal<boolean>(false);
   filteredProducts = signal<ProductDto[]>([]);
   searchTerm = signal<string>('');
   sortColumn = signal<string>('');
@@ -26,14 +39,58 @@ export class ProductTableComponent implements OnInit {
   }
 
   loadProducts(): void {
-    this.productService.getProducts().subscribe((products) => {
-      this.products.set(products);
-      this.filteredProducts.set([...products]);
-    });
+    this.isLoading.set(true);
+
+    this.productService
+      .getProducts()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.products.set(response.data);
+            this.filteredProducts.set([...response.data]);
+          }
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+
+          this.toast.error(
+            error.error.message || 'Error fetching product.',
+            error.statusText ?? ''
+          );
+          console.log(error);
+        },
+      });
   }
 
   selectProduct(id: string): void {
     this.productSelected.emit(id);
+  }
+
+  deleteProduct(productId: string): void {
+    this.isLoading.set(true);
+    this.productService
+      .deleteProduct(productId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.toast.success(response.message || 'Product deleted');
+            this.loadProducts();
+          }
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+
+          this.toast.error(
+            error.error.message || 'Error fetching product.',
+            error.statusText ?? ''
+          );
+          console.log(error);
+        },
+      });
   }
 
   search(): void {

@@ -1,66 +1,107 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ResultComponent } from './result/result.component';
-import { ProductTrackingResultComponent } from '../product/tracking-result.component';
 import { ProductDto } from '../../models/product.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { HttpClient } from '@angular/common/http';
-import { ApiResponse } from '../../models/api.model';
-import { ToastrService } from 'ngx-toastr';
+import { HttpStatusCode } from '@angular/common/http';
+import { ProductService } from '../../services/product/product.service';
+import { NgClass, NgIf } from '@angular/common';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-track-item',
-  imports: [ReactiveFormsModule, ProductTrackingResultComponent],
+  imports: [ReactiveFormsModule, NgClass, NgIf, RouterLink],
   templateUrl: './track-item.component.html',
   styleUrl: './track-item.component.css',
 })
 export class TrackItemComponent {
-  isLoading = signal<boolean>(false);
+  trackingCode = signal<string>('');
+  isSearching = signal<boolean>(false);
+
+  product = signal<ProductDto | null>(null);
+  errorMessage = signal<string>('');
   form = new FormGroup({
     trackingId: new FormControl('', Validators.required),
   });
 
-  trackingCode = signal<string>('');
-  product = signal<ProductDto | null>(null);
-  http = inject(HttpClient);
-  destroyRef = inject(DestroyRef);
-  toast = inject(ToastrService);
+  private productService = inject(ProductService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly activatedRoute = inject(ActivatedRoute);
 
-  onSubmit(): void {
-    if (this.form.invalid) return;
+  public trackSection = viewChild(ElementRef);
 
-    this.isLoading.set(true);
-    this.trackingCode.set(this.form.value.trackingId!);
-    this.http
-      .get<ApiResponse>(
-        `admin/products/search/?trackingCode=${this.trackingCode()}`
-      )
+  ngOnInit(): void {
+    const trackingCode =
+      this.activatedRoute.snapshot.queryParams['trackingCode'];
+    if (trackingCode) {
+      this.form.patchValue({ trackingId: trackingCode });
+      this.trackingCode.set(trackingCode);
+
+      this.searchProduct(true);
+    }
+  }
+
+  searchProduct(scrollToView: boolean = false): void {
+    if (this.form.invalid) {
+      this.errorMessage.set('Please enter a tracking code');
+      return;
+    }
+
+    this.isSearching.set(true);
+    this.errorMessage.set('');
+    this.product.set(null);
+
+    this.productService
+      .trackProduct('', this.form.value.trackingId!)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
-          this.isLoading.set(false);
-          if (response.success) {
+          if (response.status == HttpStatusCode.Ok && response.success) {
             this.product.set(response.data);
+            if (scrollToView) {
+              setTimeout(() => {
+                this.trackSection()?.nativeElement.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+              }, 3000);
+            }
           } else {
-            this.toast.error(response.message);
+            this.errorMessage.set(
+              response.message || 'No product found with this tracking code'
+            );
           }
+          this.isSearching.set(false);
         },
         error: (error) => {
-          console.log(error);
-          this.isLoading.set(false);
-
-          this.toast.error(
-            error.message ?? 'Error fetching product. Please try again.'
+          this.errorMessage.set(
+            error.error.message ||
+              'Error searching for product. Please try again.'
           );
+          this.isSearching.set(false);
+          console.error('Error searching product:', error);
         },
       });
-
-    // this.calculateProgress();
   }
-  // this.router.navigate(['/tracking', this.form.value.trackingId]);
+
+  clearSearch(): void {
+    this.trackingCode.set('');
+    this.product.set(null);
+    this.errorMessage.set('');
+  }
+
+  getStatusClass(status: string): string {
+    return status.toLowerCase().replace(' ', '');
+  }
 }

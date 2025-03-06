@@ -67,9 +67,11 @@ export class UpdateProductComponent implements OnInit {
     }
 
     this.productService.getProduct(this.productId()!).subscribe({
-      next: (product) => {
+      next: (response) => {
         this.isLoading.set(false);
-        this.productForm.patchValue(product);
+        if (response.success) {
+          this.productForm.patchValue(response.data);
+        }
       },
       error: (error) => {
         this.errorMessage.set(

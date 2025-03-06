@@ -9,14 +9,29 @@
 .admin-header {
   background-color: #2c3e50;
   color: white;
-  padding: 1rem 2rem;
+  padding: 6rem 2rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .admin-header h1 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 500;
+}
+
+.login-btn {
+  padding: 1rem 1.5rem;
+  background: #ffffff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #335ad1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 0.5rem;
 }
 
 .admin-tabs {

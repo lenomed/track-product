@@ -4,10 +4,10 @@
     <p class="track-subtitle">Enter a tracking code to view product details</p>
   </div>
 
-  <div class="search-box">
+  <form [formGroup]="form" (ngSubmit)="searchProduct()" class="search-box">
     <input
       type="text"
-      [(ngModel)]="trackingCode"
+      formControlName="trackingId"
       placeholder="Enter tracking code (e.g., TRK12345)"
       [disabled]="isSearching()"
       (keyup.enter)="searchProduct()"
@@ -16,12 +16,13 @@
       class="search-button"
       (click)="searchProduct()"
       [disabled]="isSearching()"
+      type="submit"
     >
       {{ isSearching() ? "Searching..." : "Track" }}
     </button>
-  </div>
+  </form>
 
-  <div class="error-message" *ngIf="errorMessage">
+  <div class="error-message" *ngIf="errorMessage()">
     {{ errorMessage() }}
   </div>
 
