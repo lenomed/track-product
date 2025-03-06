@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="login-card">
+    <div class="logo">
+      <div class="logo-circle"></div>
+      <h1>Account</h1>
+    </div>
+
+    <h2>Sign in to your account</h2>
+
+    <form [formGroup]="form" class="login-form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          formControlName="email"
+          type="email"
+          autocomplete="email"
+          id="email"
+          placeholder="Enter your email"
+        />
+        @if(form.controls['email'].errors && form.controls['email'].dirty){
+        <p class="text-error">
+          @if(form.controls['email'].errors['required']){ Email is required }
+          @if(form.controls['email'].errors['email']){ Invalid email address. }
+        </p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          formControlName="password"
+          type="password"
+          id="password"
+          autocomplete="current-password"
+          placeholder="Enter your password"
+        />
+        @if(form.controls['password'].errors &&
+        form.controls['password'].dirty){
+        <p class="text-error">
+          @if(form.controls['password'].errors['required']){ Password is
+          required }
+        </p>
+        }
+      </div>
+
+      <div class="form-options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember" />
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+
+      <button [disabled]="form.invalid" type="submit" class="login-button">
+        @if(isLoading()){Loading...}@else{Sign in}
+      </button>
+    </form>
+
+    <div class="signup-link">
+      <p>Don't have an account? <a routerLink="/">Sign up</a></p>
+    </div>
+  </div>
+</div>

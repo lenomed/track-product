@@ -1,0 +1,75 @@
+<div class="product-table-container">
+  <div class="table-header">
+    <h2>Product List</h2>
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="Search products..."
+        [(ngModel)]="searchTerm"
+        (input)="search()"
+      />
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="product-table">
+      <thead>
+        <tr>
+          <th (click)="sort('trackingId')">
+            Tracking ID
+            <span class="sort-icon">{{ getSortIcon("trackingId") }}</span>
+          </th>
+          <th (click)="sort('name')">
+            Name <span class="sort-icon">{{ getSortIcon("name") }}</span>
+          </th>
+          <th (click)="sort('senderName')">
+            Sender
+            <span class="sort-icon">{{ getSortIcon("senderName") }}</span>
+          </th>
+          <th (click)="sort('receiverName')">
+            Receiver
+            <span class="sort-icon">{{ getSortIcon("receiverName") }}</span>
+          </th>
+          <th (click)="sort('origin')">
+            Origin <span class="sort-icon">{{ getSortIcon("origin") }}</span>
+          </th>
+          <th (click)="sort('destination')">
+            Destination
+            <span class="sort-icon">{{ getSortIcon("destination") }}</span>
+          </th>
+          <th (click)="sort('status')">
+            Status <span class="sort-icon">{{ getSortIcon("status") }}</span>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(product of filteredProducts(); track product.id){
+        <tr>
+          <td>{{ product.trackingId }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.senderName }}</td>
+          <td>{{ product.receiverName }}</td>
+          <td>{{ product.origin }}</td>
+          <td>{{ product.destination }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="product.status.toLowerCase()">
+              {{ product.status }}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn edit" (click)="selectProduct(product.id)">
+              Edit
+            </button>
+          </td>
+        </tr>
+        }@empty {
+
+        <tr>
+          <td colspan="8" class="no-data">No products found</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 500;
+}
+
+.admin-tabs {
+  display: flex;
+  background-color: white;
+  border-bottom: 1px solid #e1e4e8;
+  padding: 0 2rem;
+}
+
+.admin-tabs button {
+  padding: 1rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-tabs button:hover {
+  color: #3498db;
+}
+
+.admin-tabs button.active {
+  color: #3498db;
+  border-bottom-color: #3498db;
+}
+
+.admin-tabs button:disabled {
+  color: #a0aec0;
+  cursor: not-allowed;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .admin-tabs {
+    padding: 0 1rem;
+    overflow-x: auto;
+  }
+
+  .admin-tabs button {
+    padding: 0.75rem 1rem;
+    white-space: nowrap;
+  }
+
+  .admin-content {
+    padding: 1rem;
+  }
+}

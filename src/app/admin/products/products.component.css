@@ -1,0 +1,141 @@
+.product-table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.table-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.search-container input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  width: 300px;
+  transition: border-color 0.2s;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th {
+  background-color: #f8fafc;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 1px solid #e2e8f0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.product-table th:hover {
+  background-color: #edf2f7;
+}
+
+.sort-icon {
+  margin-left: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.product-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #4a5568;
+}
+
+.product-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-badge.delivered {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.status-badge.processing {
+  background-color: #e9d8fd;
+  color: #553c9a;
+}
+
+.status-badge.in.transit {
+  background-color: #bee3f8;
+  color: #2a4365;
+}
+
+.action-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.action-btn.edit {
+  background-color: #3498db;
+  color: white;
+}
+
+.action-btn.edit:hover {
+  background-color: #2980b9;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem !important;
+  color: #a0aec0;
+  font-style: italic;
+}
+
+@media (max-width: 1024px) {
+  .search-container input {
+    width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .search-container input {
+    width: 100%;
+  }
+}

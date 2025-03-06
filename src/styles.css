@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@import "../node_modules/ngx-toastr/toastr.css";
+
+.text-error {
+  position: absolute;
+  bottom: -1.25rem;
+  color: red;
+  font-size: 0.5rem;
+  font-weight: bold;
+  text-align: start;
+}
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #2d3748;
+  line-height: 1.5;
+}
+
+/* Status colors for different statuses */
+.status-badge.in.transit {
+  background-color: #bee3f8;
+  color: #2a4365;
+}
+
+.status-badge.delivered {
+  background-color: #c6f6d5;
+  color: #22543d;
+}
+
+.status-badge.processing {
+  background-color: #e9d8fd;
+  color: #553c9a;
+}
+
+.status-badge.delayed {
+  background-color: #fed7d7;
+  color: #c53030;
+}
+
+.status-badge.cancelled {
+  background-color: #e2e8f0;
+  color: #4a5568;
+}

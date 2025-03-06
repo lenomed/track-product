@@ -1,0 +1,70 @@
+<p>result works!</p>
+<div class="container">
+  <div class="content">
+    <div class="header">
+      <h1>Tracking Details</h1>
+      <a routerLink="/track" class="btn-secondary">Track Another Package</a>
+    </div>
+
+    @if(product()){
+    <div class="card">
+      <div class="flex-between">
+        <div>
+          <h2>{{ product()?.name }}</h2>
+          <p class="muted">Tracking ID: {{ product()?.trackingId }}</p>
+        </div>
+        <div class="status" [status]="product()?.status!">
+          {{ product()?.status }}
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress" [style.width.%]="progress()"></div>
+      </div>
+      <div class="dates">
+        <span>{{ product()?.departureDate | date }}</span>
+        <span
+          >Estimated delivery:
+          {{ product()?.arrivalDate | date : "medium" }}</span
+        >
+      </div>
+
+      <div class="grid">
+        <div>
+          <h3>Shipping Details</h3>
+          <p>
+            <strong>From:</strong> {{ product()?.origin }} ({{
+              product()?.senderName
+            }})
+          </p>
+          <p>
+            <strong>To:</strong> {{ product()?.destination }} ({{
+              product()?.receiverName
+            }})
+          </p>
+        </div>
+        <div>
+          <h3>Package Information</h3>
+          <p><strong>Description:</strong> {{ product()?.description }}</p>
+          <p>
+            <strong>Departure Date:</strong>
+            {{ product()?.departureDate | date }}
+          </p>
+          <p>
+            <strong>Estimated Arrival:</strong>
+            {{ product()?.arrivalDate | date }}
+          </p>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <div class="card">
+      <h2>Tracking ID not found</h2>
+      <p>
+        The tracking ID you entered is not valid. Please check the tracking ID
+        and try again.
+      </p>
+    </div>
+    }
+  </div>
+</div>

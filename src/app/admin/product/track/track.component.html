@@ -1,0 +1,107 @@
+<div class="track-container">
+  <div class="track-header">
+    <h2>Track Product</h2>
+    <p class="track-subtitle">Enter a tracking code to view product details</p>
+  </div>
+
+  <div class="search-box">
+    <input
+      type="text"
+      [(ngModel)]="trackingCode"
+      placeholder="Enter tracking code (e.g., TRK12345)"
+      [disabled]="isSearching()"
+      (keyup.enter)="searchProduct()"
+    />
+    <button
+      class="search-button"
+      (click)="searchProduct()"
+      [disabled]="isSearching()"
+    >
+      {{ isSearching() ? "Searching..." : "Track" }}
+    </button>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage() }}
+  </div>
+
+  <div class="loading-container" *ngIf="isSearching()">
+    <div class="loading-spinner"></div>
+    <p>Searching for product...</p>
+  </div>
+
+  <div class="product-details" *ngIf="product()">
+    <div class="product-header">
+      <h3>{{ product()?.name }}</h3>
+      <span class="status-badge" [ngClass]="getStatusClass(product()?.status!)">
+        {{ product()?.status }}
+      </span>
+    </div>
+
+    <div class="product-info">
+      <div class="info-section">
+        <h4>Tracking Information</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Tracking ID:</span>
+            <span class="info-value">{{ product()?.trackingId }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Status:</span>
+            <span class="info-value">{{ product()?.status }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Departure Date:</span>
+            <span class="info-value">{{ product()?.departureDate }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Arrival Date:</span>
+            <span class="info-value">{{ product()?.arrivalDate }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h4>Product Details</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Product ID:</span>
+            <span class="info-value">{{ product()?.id }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Description:</span>
+            <span class="info-value">{{ product()?.description }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-section">
+        <h4>Shipping Information</h4>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Sender:</span>
+            <span class="info-value">{{ product()?.senderName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Receiver:</span>
+            <span class="info-value">{{ product()?.receiverName }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Origin:</span>
+            <span class="info-value">{{ product()?.origin }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Destination:</span>
+            <span class="info-value">{{ product()?.destination }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn-secondary" (click)="clearSearch()">
+        Search Another
+      </button>
+    </div>
+  </div>
+</div>

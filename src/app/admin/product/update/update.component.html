@@ -1,0 +1,138 @@
+<div class="product-form-container">
+  <div class="form-header">
+    <h2>Update Product</h2>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading()">
+    <div class="loading-spinner"></div>
+    <p>Loading product details...</p>
+  </div>
+
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="onSubmit()"
+    class="product-form"
+    *ngIf="!isLoading()"
+  >
+    <div class="form-alert error" *ngIf="errorMessage()">
+      {{ errorMessage() }}
+    </div>
+
+    <div class="form-alert success" *ngIf="successMessage()">
+      {{ successMessage() }}
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Product Name</label>
+        <input type="text" id="name" formControlName="name" />
+        <div class="error-message" *ngIf="isFieldInvalid('name')">
+          Product name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="trackingId">Tracking ID</label>
+        <input
+          type="text"
+          id="trackingId"
+          formControlName="trackingId"
+          placeholder="Format: TRK12345"
+        />
+        <div class="error-message" *ngIf="isFieldInvalid('trackingId')">
+          Valid tracking ID is required (Format: TRK12345)
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="3"
+      ></textarea>
+      <div class="error-message" *ngIf="isFieldInvalid('description')">
+        Description is required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="senderName">Sender Name</label>
+        <input type="text" id="senderName" formControlName="senderName" />
+        <div class="error-message" *ngIf="isFieldInvalid('senderName')">
+          Sender name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="receiverName">Receiver Name</label>
+        <input type="text" id="receiverName" formControlName="receiverName" />
+        <div class="error-message" *ngIf="isFieldInvalid('receiverName')">
+          Receiver name is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="origin">Origin</label>
+        <input type="text" id="origin" formControlName="origin" />
+        <div class="error-message" *ngIf="isFieldInvalid('origin')">
+          Origin is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="destination">Destination</label>
+        <input type="text" id="destination" formControlName="destination" />
+        <div class="error-message" *ngIf="isFieldInvalid('destination')">
+          Destination is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="departureDate">Departure Date</label>
+        <input type="date" id="departureDate" formControlName="departureDate" />
+        <div class="error-message" *ngIf="isFieldInvalid('departureDate')">
+          Departure date is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="arrivalDate">Arrival Date</label>
+        <input type="date" id="arrivalDate" formControlName="arrivalDate" />
+        <div class="error-message" *ngIf="isFieldInvalid('arrivalDate')">
+          Arrival date is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" formControlName="status">
+        <option value="Processing">Processing</option>
+        <option value="In Transit">In Transit</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Delayed">Delayed</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? "Updating..." : "Update Product" }}
+      </button>
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="productUpdated.emit()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
