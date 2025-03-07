@@ -19,6 +19,7 @@ export class HomeComponent {
   router = inject(Router);
 
   whatsappNumber = signal<string>(apiConfig.whatsappNumber);
+  email = signal<string>(apiConfig.email);
 
   trackProduct(): void {
     if (this.trackingId.invalid) {

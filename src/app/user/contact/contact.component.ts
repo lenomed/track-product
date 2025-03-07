@@ -1,6 +1,12 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ContactRequest } from './../../models/general.model';
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  linkedSignal,
+  signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -10,6 +16,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { GeneralService } from '../../services/general/genera.service';
+import { apiConfig } from '../../config/api.config';
 
 @Component({
   selector: 'app-contact',
@@ -22,6 +29,9 @@ export class ContactComponent {
   generalService = inject(GeneralService);
   toast = inject(ToastrService);
   destroyRef = inject(DestroyRef);
+
+  phoneNumber = signal<string>(apiConfig.whatsappNumber);
+  email = signal<string>(apiConfig.email);
 
   form = new FormGroup({
     message: new FormControl('', [

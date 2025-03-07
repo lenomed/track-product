@@ -71,15 +71,15 @@ export const routes: Routes = [
             (m) => m.AdminDashboardComponent
           ),
       },
-
-      {
-        path: 'admin/login',
-        loadComponent: () =>
-          import('./admin/login/login.component').then(
-            (m) => m.AdminLoginComponent
-          ),
-      },
     ],
+  },
+
+  {
+    path: 'admin/login',
+    loadComponent: () =>
+      import('./admin/login/login.component').then(
+        (m) => m.AdminLoginComponent
+      ),
   },
 
   { path: '**', redirectTo: '', pathMatch: 'full' },
